@@ -7,7 +7,6 @@ import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.hibernate.validator.constraints.Length;
@@ -28,19 +27,18 @@ public class RegistrationForm implements Serializable {
     transient RegistrationClient registrationClient;
     @Inject
     ObjectMapper mapper;
-    @NotNull
+
     @NotBlank
+    @Pattern(regexp = "^[\\p{L}\\s'.-]+$", message = "Name should consist only of letters")
     @Length(min = 5, max = 20)
     private String name;
 
     @NotBlank
-    @NotNull
     @Pattern(regexp = "^[\\p{L}\\s'.-]+$", message = "Name should consist only of letters")
-    @Length(min = 3, max = 50)
+    @Length(min = 5, max = 50)
     private String surname;
 
     @NotBlank
-    @NotNull
     @Email(regexp = EMAIL_REGEX)
     private String email;
     private boolean registered;
