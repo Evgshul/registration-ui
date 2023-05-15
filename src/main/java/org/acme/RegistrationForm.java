@@ -5,8 +5,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.hibernate.validator.constraints.Length;
 import org.slf4j.Logger;
@@ -18,6 +20,9 @@ import java.io.Serializable;
 @ViewScoped
 public class RegistrationForm implements Serializable {
     private static final Logger LOG = LoggerFactory.getLogger(RegistrationForm.class);
+
+    private final static String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+
     @Inject
     @RestClient
     transient RegistrationClient registrationClient;
@@ -27,12 +32,25 @@ public class RegistrationForm implements Serializable {
     @NotBlank
     @Length(min = 5, max = 20)
     private String name;
+
+    @NotBlank
+    @NotNull
+    @Pattern(regexp = "^[\\p{L}\\s'.-]+$", message = "Name should consist only of letters")
+    @Length(min = 3, max = 50)
+    private String surname;
+
+    @NotBlank
+    @NotNull
+    @Email(regexp = EMAIL_REGEX)
+    private String email;
     private boolean registered;
 
     public void register() {
-        LOG.debug("registering {}", name);
+        LOG.debug("registering {} {} with email: {}", name, surname, email);
         var reg = new RegistrationDTO();
         reg.setName(name);
+        reg.setSurname(surname);
+        reg.setEmail(email);
         registrationClient.register(reg);
         registered = true;
     }
@@ -49,6 +67,22 @@ public class RegistrationForm implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public boolean isRegistered() {
