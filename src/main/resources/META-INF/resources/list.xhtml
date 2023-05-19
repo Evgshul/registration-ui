@@ -33,11 +33,19 @@
                     <p:column headerText="Email">
                         <h:outputText value="#{reg.email}" />
                     </p:column>
+                    <p:column headerText="To Approval">
+                        <p:selectBooleanCheckbox value="#{reg.approved}"
+                                                 disabled="true"/>
+                    </p:column>
                     <p:column headerText="Approval">
                         <p:commandButton id="send" action="#{registrationListForm.sendEmail(reg.email)}" value="Send approvals"
                                          process="@form" update="@form"
                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat">
                         </p:commandButton>
+                    </p:column>
+                    <p:column headerText="Approved">
+                        <p:selectBooleanCheckbox value="#{reg.approved}"
+                                                 disabled="true"/>
                     </p:column>
 
                 </p:dataTable>

@@ -9,6 +9,8 @@ public class RegistrationDTO implements Serializable {
 
     private String email;
 
+    private boolean approved;
+
     public String getName() {
         return name;
     }
@@ -31,5 +33,13 @@ public class RegistrationDTO implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public boolean isApproved() {
+        return approved;
+    }
+
+    public void setApproved(boolean approved) {
+        this.approved = approved;
     }
 }
