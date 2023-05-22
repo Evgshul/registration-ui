@@ -12,9 +12,15 @@ import java.util.List;
 @ViewScoped
 public class RegistrationListForm implements Serializable {
 
+    private boolean checked = true;
+
     @Inject
     @RestClient
     transient RegistrationClient registrationClient;
+
+    public void setAsChecked() {
+        checked = false;
+    }
 
     public List<RegistrationDTO> getRegistrationList() {
         return registrationClient.getRegistrationList();
@@ -24,4 +30,7 @@ public class RegistrationListForm implements Serializable {
         return registrationClient.sendEmail(email);
     }
 
+    public boolean isChecked() {
+        return checked;
+    }
 }

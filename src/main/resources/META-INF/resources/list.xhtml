@@ -16,30 +16,34 @@
     <ui:insert name="head"/>
 </h:head>
 <h:body>
+
     <h:form id="registrationListForm">
         <div class="max-w-40rem mx-auto lg:mt-8 md:mt-4">
             <div class="flex justify-content-center">
                 <h2>Registration List Table</h2>
             </div>
             <div class="card">
-                <p:dataTable var="reg" value="#{registrationListForm.registrationList}">
+                <p:dataTable id="table" var="reg" value="#{registrationListForm.registrationList}">
 
                     <p:column headerText="Name">
-                        <h:outputText value="#{reg.name}" />
+                        <h:outputText value="#{reg.name}"/>
                     </p:column>
                     <p:column headerText="Surname">
-                        <h:outputText value="#{reg.surname}" />
+                        <h:outputText value="#{reg.surname}"/>
                     </p:column>
                     <p:column headerText="Email">
-                        <h:outputText value="#{reg.email}" />
+                        <h:outputText value="#{reg.email}"/>
                     </p:column>
                     <p:column headerText="To Approval">
-                        <p:selectBooleanCheckbox value="#{reg.approved}"
-                                                 disabled="true"/>
+                        <p:selectBooleanCheckbox id="check">
+                            <p:ajax update="sendMail" listener="#{registrationListForm.setAsChecked()}"/>
+                        </p:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="Approval">
-                        <p:commandButton id="send" action="#{registrationListForm.sendEmail(reg.email)}" value="Send approvals"
+                        <p:commandButton id="sendMail" action="#{registrationListForm.sendEmail(reg.email)}"
+                                         value="Send approvals"
                                          process="@form" update="@form"
+                                         disabled="#{registrationListForm.checked}"
                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat">
                         </p:commandButton>
                     </p:column>
