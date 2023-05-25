@@ -12,14 +12,14 @@ import java.util.List;
 @ViewScoped
 public class RegistrationListForm implements Serializable {
 
-    private boolean checked = true;
+    private boolean checked;
 
     @Inject
     @RestClient
     transient RegistrationClient registrationClient;
 
-    public void setAsChecked() {
-        checked = false;
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     public List<RegistrationDTO> getRegistrationList() {

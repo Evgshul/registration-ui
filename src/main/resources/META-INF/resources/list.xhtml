@@ -35,20 +35,21 @@
                         <h:outputText value="#{reg.email}"/>
                     </p:column>
                     <p:column headerText="To Approval">
-                        <p:selectBooleanCheckbox id="check">
-                            <p:ajax update="sendMail" listener="#{registrationListForm.setAsChecked()}"/>
+                        <p:selectBooleanCheckbox id="check" value="#{registrationListForm.checked}">
+                            <p:ajax update="sendMail"/>
                         </p:selectBooleanCheckbox>
                     </p:column>
                     <p:column headerText="Approval">
                         <p:commandButton id="sendMail" action="#{registrationListForm.sendEmail(reg.email)}"
                                          value="Send approvals"
-                                         process="@form" update="@form"
-                                         disabled="#{registrationListForm.checked}"
+                                         process="@this,checkbox1"
+                                         update="checkbox1"
+                                         disabled="#{!registrationListForm.checked}"
                                          styleClass="ui-button-raised ui-button-secondary ui-button-flat">
                         </p:commandButton>
                     </p:column>
                     <p:column headerText="Approved">
-                        <p:selectBooleanCheckbox value="#{reg.approved}"
+                        <p:selectBooleanCheckbox id="checkbox1" value="#{reg.approved}"
                                                  disabled="true"/>
                     </p:column>
 
